@@ -1,15 +1,13 @@
 # LedgerFlow
 
 **Status: in development.**
-LedgerFlow is a document-intake and extraction engine being built for one accounting design partner in Malaysia.
+LedgerFlow is a document-intake and extraction engine that I'm building for an accounting design partner in Malaysia.
 It is not deployed for operational use, it has no bank-statement parser yet, and no extraction accuracy has been measured.
 What exists is the foundation that a parser will plug into: the access layer, the data model, and the arithmetic gates.
 
-*"LedgerFlow" is a working name.*
-
 ## The problem
 
-Small Malaysian accounting firms spend most of their bookkeeping time typing transactions from source documents into their accounting system.
+This accounting firms spends most of their bookkeeping time typing transactions from source documents into their accounting system.
 Bank statements, supplier invoices and receipts arrive as PDFs and phone photos.
 Staff read each one and key the lines into Sage UBS or SQL Account.
 
