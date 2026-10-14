@@ -1,0 +1,13 @@
+{
+  // Node runs scripts/ directly via --experimental-strip-types, which requires
+  // explicit .ts extensions in relative imports. Next.js rejects those, so
+  // scripts/ is excluded from tsconfig.json and type-checked here instead.
+  // Two small configs beat adding a TypeScript runner dependency.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": ["scripts/**/*.ts"],
+  "exclude": ["node_modules"]
+}

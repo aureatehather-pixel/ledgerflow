@@ -1,0 +1,41 @@
+# The offline gate, the synthetic demo and the production build, from a clean
+# checkout on every supported OS. No secrets are configured or needed: the tests
+# use in-process PostgreSQL and an in-memory object store. The live R2 smoke
+# test (`npm run storage:smoke`) costs money and never runs here.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ${{ matrix.os }} / node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # macos-latest is Apple silicon (arm64), the platform where a missing
+        # native compiler was first observed.
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ["22.13.0", "24"]
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run demo
+      - run: npm run build
+      # `next build` has been observed to exit 0 without writing output when its
+      # compiler is unavailable. Success means a build exists, not a zero exit.
+      - name: Build output exists
+        shell: bash
+        run: test -f .next/BUILD_ID
